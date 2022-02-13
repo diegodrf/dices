@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:dices/providers/dice_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'dice.dart';
 
@@ -16,7 +18,7 @@ class _DiceBaseWidgetState extends State<DiceBaseWidget>
   int _diceValue = 1;
   double _opacity = 1.0;
   late final AnimationController _animationController;
-  late final Animation _animation;
+  late final Animation _dotAnimation;
 
   @override
   void initState() {
@@ -27,14 +29,14 @@ class _DiceBaseWidgetState extends State<DiceBaseWidget>
       duration: const Duration(milliseconds: 500),
     );
 
-    _animation = CurvedAnimation(
+    _dotAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.decelerate,
     );
 
-    _animation.addListener(() {
+    _dotAnimation.addListener(() {
       setState(() {
-        _opacity = _animation.value;
+        _opacity = _dotAnimation.value;
       });
     });
   }
@@ -71,30 +73,36 @@ class _DiceBaseWidgetState extends State<DiceBaseWidget>
           dotSize = size.height * 0.08;
           margin = size.height * 0.1;
         }
-        return GestureDetector(
-          onTap: () => rollDice(),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(),
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: margin),
-              width: diceSize,
-              height: diceSize,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE3E3E3),
-                borderRadius: BorderRadius.circular(20.0),
-                boxShadow: const [
-                  BoxShadow(
-                    offset: Offset(5, 5),
+        return Consumer<DiceProvider>(
+          builder: (BuildContext context, provider, Widget? child) {
+            return GestureDetector(
+              onTap: () => rollDice(),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(),
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: margin,
                   ),
-                ],
+                  width: diceSize,
+                  height: diceSize,
+                  decoration: BoxDecoration(
+                    color: provider.diceBackgroundColor,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        offset: Offset(5, 5),
+                      ),
+                    ],
+                  ),
+                  child: Dice(
+                    diceValue: _diceValue,
+                    opacity: _opacity,
+                    dotSize: dotSize,
+                  ),
+                ),
               ),
-              child: Dice(
-                diceValue: _diceValue,
-                opacity: _opacity,
-                dotSize: dotSize,
-              ),
-            ),
-          ),
+            );
+          },
         );
       },
     );

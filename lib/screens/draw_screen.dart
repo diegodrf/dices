@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dices/components/draw/add_item_component.dart';
 import 'package:dices/components/draw/list_component.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +47,7 @@ class _DrawScreenState extends State<DrawScreen> {
           ListComponent(
             list: widget._list,
           ),
-          ElevatedButton(onPressed: (){}, child: Text('Draw'))
+          ElevatedButton(onPressed: () {}, child: const Text('Draw'))
         ],
       ),
     );

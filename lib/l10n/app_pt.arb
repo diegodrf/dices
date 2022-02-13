@@ -1,4 +1,12 @@
 {
     "helloWorld": "Olá Mundo!",
-    "dicesTitle": "Dados"
+    "dicesTitle": "Dados",
+    "diceBackgroundColorQuestion": "Mudar a cor de fundo do dado:",
+    "@diceBackgroundColorQuestion": {
+        "description": "Opção para alterar a cor de fundo do dado."
+    },
+    "diceDotColorQuestion": "Mudar a cor da pontuação do dado:",
+    "@diceDotColorQuestion": {
+        "description": "Opção para alterar a cor da pontuação do dado."
+    }
 }
